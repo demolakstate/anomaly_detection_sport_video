@@ -156,8 +156,8 @@ label_processor(label_tag).numpy()
 
 def prepare_all_videos(root_dir):
     
-    video_paths = os.listdir(root_dir)[:20]
-    labels = [video_path.split('_')[0] for video_path in video_paths][:20]
+    video_paths = os.listdir(root_dir)
+    labels = [video_path.split('_')[0] for video_path in video_paths]
     num_samples = len(labels)
     print('num_samples ', num_samples)
     #labels = label_processor(labels[..., None]).numpy()
@@ -335,7 +335,7 @@ def get_compiled_model():
 
 
 def run_experiment():
-    filepath = "./model_30_percent_val_split/video_classifier"
+    filepath = "./model_30_percent_val_split_v2/video_classifier"
     checkpoint = keras.callbacks.ModelCheckpoint(
         filepath, save_weights_only=True, save_best_only=True, verbose=1
     )
