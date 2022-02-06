@@ -1,0 +1,4 @@
+module purge
+module load Python/3.7.4-GCCcore-8.3.0
+source ~/virtualenvs/anomaly_sport_video/bin/activate
+sbatch --time="6-00" --mem-per-cpu=400G --cpus-per-task=1 --ntasks=1 --nodes=1 --gres=gpu:1  --partition=ksu-gen-gpu.q --mail-type=ALL --mail-user=ogsconnect@gmail.com run_transformer.sh 

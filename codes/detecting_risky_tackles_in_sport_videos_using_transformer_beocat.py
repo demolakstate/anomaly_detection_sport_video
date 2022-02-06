@@ -156,8 +156,8 @@ label_processor(label_tag).numpy()
 
 def prepare_all_videos(root_dir):
     
-    video_paths = os.listdir(root_dir)[:10]
-    labels = [video_path.split('_')[0] for video_path in video_paths][:10]
+    video_paths = os.listdir(root_dir)[:20]
+    labels = [video_path.split('_')[0] for video_path in video_paths][:20]
     num_samples = len(labels)
     print('num_samples ', num_samples)
     #labels = label_processor(labels[..., None]).numpy()
