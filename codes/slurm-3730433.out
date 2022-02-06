@@ -1,0 +1,12 @@
+2022-02-06 03:42:34.039535: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/software/software/Python/3.7.4-GCCcore-8.3.0/lib:/opt/software/software/libffi/3.2.1-GCCcore-8.3.0/lib64:/opt/software/software/libffi/3.2.1-GCCcore-8.3.0/lib:/opt/software/software/GMP/6.1.2-GCCcore-8.3.0/lib:/opt/software/software/XZ/5.2.4-GCCcore-8.3.0/lib:/opt/software/software/SQLite/3.29.0-GCCcore-8.3.0/lib:/opt/software/software/Tcl/8.6.9-GCCcore-8.3.0/lib:/opt/software/software/libreadline/8.0-GCCcore-8.3.0/lib:/opt/software/software/ncurses/6.1-GCCcore-8.3.0/lib:/opt/software/software/bzip2/1.0.8-GCCcore-8.3.0/lib:/opt/software/software/binutils/2.32-GCCcore-8.3.0/lib:/opt/software/software/zlib/1.2.11-GCCcore-8.3.0/lib:/opt/software/software/GCCcore/8.3.0/lib/gcc/x86_64-pc-linux-gnu/8.3.0:/opt/software/software/GCCcore/8.3.0/lib64:/opt/software/software/GCCcore/8.3.0/lib
+2022-02-06 03:42:34.039595: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+Traceback (most recent call last):
+  File "/homes/okerinde/projects/anomaly_detection_sport_video/codes/detecting_risky_tackles_in_sport_videos_using_transformer_beocat.py", line 39, in <module>
+    from sklearn.model_selection import train_test_split
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/sklearn/__init__.py", line 82, in <module>
+    from .base import clone
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/sklearn/base.py", line 17, in <module>
+    from .utils import _IS_32BIT
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/sklearn/utils/__init__.py", line 21, in <module>
+    from scipy.sparse import issparse
+ModuleNotFoundError: No module named 'scipy'

@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/homes/okerinde/projects/anomaly_detection_sport_video/codes/detecting_risky_tackles_in_sport_videos_using_transformer_beocat.py", line 36, in <module>
+    from tensorflow_docs.vis import embed
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/tensorflow_docs/__init__.py", line 21, in <module>
+    from tensorflow_docs import api_generator
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/tensorflow_docs/api_generator/__init__.py", line 20, in <module>
+    from tensorflow_docs.api_generator import generate_lib
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/tensorflow_docs/api_generator/generate_lib.py", line 40, in <module>
+    from tensorflow_docs.api_generator.report import utils
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/tensorflow_docs/api_generator/report/utils.py", line 22, in <module>
+    from tensorflow_docs.api_generator.report import linter
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/tensorflow_docs/api_generator/report/linter.py", line 29, in <module>
+    from tensorflow_docs.api_generator.report.schema import api_report_generated_pb2 as api_report_pb2
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/tensorflow_docs/api_generator/report/schema/__init__.py", line 18, in <module>
+    from tensorflow_docs.api_generator.report.schema import api_report_generated_pb2 as api_report_pb2
+  File "/homes/okerinde/virtualenvs/anomaly_sport_video/lib/python3.7/site-packages/tensorflow_docs/api_generator/report/schema/api_report_generated_pb2.py", line 39, in <module>
+    create_key=_descriptor._internal_create_key,
+AttributeError: module 'google.protobuf.descriptor' has no attribute '_internal_create_key'

@@ -1,0 +1,37 @@
+2022-02-06 03:11:42.378547: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+--------------------------------------------------------------------------
+No OpenFabrics connection schemes reported that they were able to be
+used on a specific port.  As such, the openib BTL (OpenFabrics
+support) will be disabled for this port.
+
+  Local host:           elf11
+  Local device:         mlx4_1
+  Local port:           1
+  CPCs attempted:       rdmacm, udcm
+--------------------------------------------------------------------------
+2022-02-06 03:11:47.368793: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+--------------------------------------------------------------------------
+A process has executed an operation involving a call to the
+"fork()" system call to create a child process.  Open MPI is currently
+operating in a condition that could result in memory corruption or
+other system errors; your job may hang, crash, or produce silent
+data corruption.  The use of fork() (or system() or other calls that
+create child processes) is strongly discouraged.
+
+The process that invoked fork was:
+
+  Local host:          [[22216,1],0] (PID 31947)
+
+If you are *absolutely sure* that your application will successfully
+and correctly survive a call to fork(), you may disable this warning
+by setting the mpi_warn_on_fork MCA parameter to 0.
+--------------------------------------------------------------------------
+2022-02-06 03:11:47.885245: E tensorflow/stream_executor/cuda/cuda_driver.cc:314] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+2022-02-06 03:11:47.887733: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (elf11): /proc/driver/nvidia/version does not exist
+2022-02-06 03:11:47.915649: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/densenet/densenet121_weights_tf_dim_ordering_tf_kernels_notop.h5
+    8192/29084464 [..............................] - ETA: 0s   73728/29084464 [..............................] - ETA: 24s  204800/29084464 [..............................] - ETA: 16s  745472/29084464 [..............................] - ETA: 6s  1802240/29084464 [>.............................] - ETA: 3s 3653632/29084464 [==>...........................] - ETA: 1s 6168576/29084464 [=====>........................] - ETA: 1s 7258112/29084464 [======>.......................] - ETA: 1s 9682944/29084464 [========>.....................] - ETA: 0s12484608/29084464 [===========>..................] - ETA: 0s14712832/29084464 [==============>...............] - ETA: 0s17047552/29084464 [================>.............] - ETA: 0s19873792/29084464 [===================>..........] - ETA: 0s22396928/29084464 [======================>.......] - ETA: 0s25174016/29084464 [========================>.....] - ETA: 0s25182208/29084464 [========================>.....] - ETA: 0s26951680/29084464 [==========================>...] - ETA: 0s28729344/29084464 [============================>.] - ETA: 0s29089792/29084464 [==============================] - 1s 0us/step
+Traceback (most recent call last):
+  File "/homes/okerinde/projects/anomaly_detection_sport_video/codes/detecting_risky_tackles_in_sport_videos_using_transformer_beocat.py", line 150, in <module>
+    label_processor = keras.layers.StringLookup(
+AttributeError: module 'tensorflow.keras.layers' has no attribute 'StringLookup'

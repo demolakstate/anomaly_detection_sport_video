@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/homes/okerinde/projects/anomaly_detection_sport_video/codes/detecting_risky_tackles_in_sport_videos_using_transformer_beocat.py", line 36, in <module>
+    from tensorflow_docs.vis import embed
+ModuleNotFoundError: No module named 'tensorflow_docs'
