@@ -156,8 +156,8 @@ label_processor(label_tag).numpy()
 
 def prepare_all_videos(root_dir):
     
-    video_paths = os.listdir(root_dir)
-    labels = [video_path.split('_')[0] for video_path in video_paths]
+    video_paths = os.listdir(root_dir)[-20:]
+    labels = [video_path.split('_')[0] for video_path in video_paths][-20:]
     num_samples = len(labels)
     print('num_samples ', num_samples)
     #labels = label_processor(labels[..., None]).numpy()
@@ -215,7 +215,7 @@ try:
     print("Successfully loaded data from disk")
 except FileNotFoundError:
     print("Dataset not available on disk, preparing a new one...")
-    data, labels = prepare_all_videos('../ksutackle_dataset/')
+    data, labels = prepare_all_videos('../../ksutackle_dataset/')
     np.save("data.npy", data)
     np.save("labels.npy", labels)
 
