@@ -220,7 +220,7 @@ except FileNotFoundError:
     np.save("labels.npy", labels)
 
 train_data_all, test_data, train_labels_all, test_labels = train_test_split(data, labels, test_size=0.20, random_state=42)
-train_data, val_data, train_labels, val_labels = train_test_split(train_data_all, train_labels_all, test_size=0.30, random_state=45)
+train_data, val_data, train_labels, val_labels = train_test_split(train_data_all, train_labels_all, test_size=0.20, random_state=45)
 print(f"Frame features in train set: {train_data.shape}")
 #class_weights = class_weight.compute_class_weight('balanced', np.unique(train_labels), np.unique(train_labels))
 
