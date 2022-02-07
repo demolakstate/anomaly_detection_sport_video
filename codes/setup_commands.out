@@ -5,3 +5,5 @@ sbatch --time="6-00" --mem-per-cpu=400G --cpus-per-task=1 --ntasks=1 --nodes=1 -
 
 =================A command to stop tracking and entire directory in a Git repo =====================
 $ git rm --cached -r <dir> 
+=========reset========
+git reset --hard HEAD~1

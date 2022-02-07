@@ -156,8 +156,8 @@ label_processor(label_tag).numpy()
 
 def prepare_all_videos(root_dir):
     
-    video_paths = os.listdir(root_dir)[-20:]
-    labels = [video_path.split('_')[0] for video_path in video_paths][-20:]
+    video_paths = os.listdir(root_dir)
+    labels = [video_path.split('_')[0] for video_path in video_paths]
     num_samples = len(labels)
     print('num_samples ', num_samples)
     #labels = label_processor(labels[..., None]).numpy()
@@ -200,7 +200,7 @@ def prepare_all_videos(root_dir):
             for j in range(length):
                 if np.mean(batch[j, :]) > 0.0:
                     temp_frame_features[i, j, :] = feature_extractor.predict(
-                        batch[None, j, :]
+                        batch[None, j, :], verbose=0
                     )
 
                 else:
@@ -214,7 +214,7 @@ try:
     data, labels = np.load("data.npy"), np.load("labels.npy")
     print("Successfully loaded data from disk")
 except FileNotFoundError:
-    print("Dataset not available on disk, preparing a nnew one...")
+    print("Dataset not available on disk, preparing a new one...")
     data, labels = prepare_all_videos('../ksutackle_dataset/')
     np.save("data.npy", data)
     np.save("labels.npy", labels)
