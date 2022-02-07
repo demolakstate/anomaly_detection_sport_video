@@ -211,7 +211,7 @@ def prepare_all_videos(root_dir):
     return frame_features, labels
 
 try:
-    data, labels = np.load("data.npy"), np.load("labels.npy")
+    data, labels = np.load("../dataset/data.npy"), np.load("../dataset/labels.npy")
     print("Successfully loaded data from disk")
 except FileNotFoundError:
     print("Dataset not available on disk, preparing a new one...")
