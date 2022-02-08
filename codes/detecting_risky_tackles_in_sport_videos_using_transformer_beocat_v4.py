@@ -52,7 +52,7 @@ import os
 
 """## Define hyperparameters"""
 
-MAX_SEQ_LENGTH = 20
+MAX_SEQ_LENGTH = 503#20
 NUM_FEATURES = 1024
 IMG_SIZE = 1920 #128
 #class_weights = {0:1.0, 1:3.}
@@ -184,7 +184,7 @@ def prepare_all_videos(root_dir):
         if len(frames) < MAX_SEQ_LENGTH:
             diff = MAX_SEQ_LENGTH - len(frames)
             padding = np.zeros((diff, IMG_SIZE, IMG_SIZE, 3))
-            frames = np.concatenate(frames, padding)
+            frames = np.concatenate([frames, padding])
 
         frames = frames[None, ...]
 
@@ -200,7 +200,7 @@ def prepare_all_videos(root_dir):
             for j in range(length):
                 if np.mean(batch[j, :]) > 0.0:
                     temp_frame_features[i, j, :] = feature_extractor.predict(
-                        batch[None, j, :], verbose=0
+                        batch[None, j, :], verbose=2
                     )
 
                 else:
@@ -216,8 +216,8 @@ try:
 except FileNotFoundError:
     print("Dataset not available on disk, preparing a new one...")
     data, labels = prepare_all_videos('../../ksutackle_dataset/')
-    np.save("data.npy", data)
-    np.save("labels.npy", labels)
+    np.save("data_3.npy", data)
+    np.save("labels_3.npy", labels)
 
 train_data_all, test_data, train_labels_all, test_labels = train_test_split(data, labels, test_size=0.20, random_state=42)
 train_data, val_data, train_labels, val_labels = train_test_split(train_data_all, train_labels_all, test_size=0.20, random_state=45)
