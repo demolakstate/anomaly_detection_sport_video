@@ -211,20 +211,20 @@ def prepare_all_videos(root_dir):
     return frame_features, labels
 
 try:
-    data, labels = np.load("data_3.npy"), np.load("labels_3.npy")
+    data, labels = np.load("sample_dataset_2/data.npy"), np.load("sample_dataset_2/labels.npy")
     print("Successfully loaded data from disk")
 except FileNotFoundError:
     print("Dataset not available on disk, preparing a new one...")
     data, labels = prepare_all_videos('../../ksutackle_dataset/')
-    np.save("data.npy", data)
-    np.save("labels.npy", labels)
+    np.save("data_3.npy", data)
+    np.save("labels_3.npy", labels)
 
-train_data_all, test_data, train_labels_all, test_labels = train_test_split(data, labels, test_size=0.20, random_state=42)
-train_data, val_data, train_labels, val_labels = train_test_split(train_data_all, train_labels_all, test_size=0.20, random_state=45)
-print(f"Frame features in train set: {train_data.shape}")
+#train_data_all, test_data, train_labels_all, test_labels = train_test_split(data, labels, test_size=0.20, random_state=42)
+#train_data, val_data, train_labels, val_labels = train_test_split(train_data_all, train_labels_all, test_size=0.20, random_state=45)
+print(f"Frame features in train set: {data.shape}")
 #class_weights = class_weight.compute_class_weight('balanced', np.unique(train_labels), np.unique(train_labels))
 
-risky, safe = np.bincount(train_labels)
+risky, safe = np.bincount(labels)
 total = safe + risky
 print('Examples:\n    Total: {}\n    Risky: {} ({:.2f}% of total)\n'.format(
     total, risky, 100 * risky / total))
@@ -351,9 +351,10 @@ def run_experiment():
 
     model = get_compiled_model()
     history = model.fit(
-        train_data,
-        train_labels,
-        validation_data=(val_data, val_labels),
+        data,
+        labels,
+        validation_split=0.2,
+        #validation_data=(val_data, val_labels),
         class_weight=class_weights,
         epochs=EPOCHS,
         callbacks=[checkpoint, callback_early_stopping],
@@ -379,7 +380,7 @@ plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 #plt.title('Accuracy')
 plt.legend()
-plt.savefig('plt_accuracy.png', dpi=300, bbox_inches='tight')
+#plt.savefig('plt_accuracy.png', dpi=300, bbox_inches='tight')
 
 
 #plt.plot(history.history['accuracy'], label='training_accuracy')
@@ -390,7 +391,7 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 #plt.title('Accuracy')
 plt.legend()
-plt.savefig('plt_loss.png', dpi=300, bbox_inches='tight')
+#plt.savefig('plt_loss.png', dpi=300, bbox_inches='tight')
 
 
 """**Note**: This model has ~4.23 Million parameters, which is way more than the sequence
@@ -400,12 +401,12 @@ Transformer model works best with a larger dataset and a longer pre-training sch
 # Model summary
 print(trained_model.summary())
 
-predictions = trained_model.predict(val_data)
+predictions = trained_model.predict(data)
 print('predictions', predictions)
 y_pred = np.array([1.0 if x > 0.5 else 0.0 for x in predictions])
 
 print('y_pred', y_pred)
-y_true = val_labels
+y_true = labels
 
 print('y_true', y_true)
 print(tf.math.confusion_matrix(y_true, y_pred))
@@ -416,7 +417,7 @@ print(classification_report(y_true, y_pred))
 # Save the model
 import time
 time_saved = time.time()
-trained_model.save('transformer_{}.h5'.format(time_saved))
+#trained_model.save('transformer_{}.h5'.format(time_saved))
 print(f'time_saved : {time_saved}')
 
 #import matplotlib.pyplot as plt
