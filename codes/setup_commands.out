@@ -8,4 +8,8 @@ $ git rm --cached -r <dir>
 =========reset========
 git reset --hard HEAD^
 ----
+git reset --soft HEAD^
+---
+git restore --staged data_conv_lstm.npy
+----
 git reset --hard HEAD~1
