@@ -37,12 +37,12 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 import io
-import imageio
-from IPython.display import Image, display
-from ipywidgets import widgets, Layout, HBox
+#import imageio
+#from IPython.display import Image, display
+#from ipywidgets import widgets, Layout, HBox
 import cv2
 
-from google.colab.patches import cv2_imshow
+#from google.colab.patches import cv2_imshow
 
 import os
 
@@ -71,8 +71,8 @@ input data is frame `x_n`, being used to predict frame `y_(n + 1)`.
 """
 
 #Connect to drive
-from google.colab import drive
-drive.mount('/content/gdrive')
+#from google.colab import drive
+#drive.mount('/content/gdrive')
 
 # Following method is modified from this tutorial:
 # https://www.tensorflow.org/hub/tutorials/action_recognition_with_tf_hub
@@ -197,22 +197,22 @@ while ret:
 
 
 try:
-    data = np.load("data_conv_lstm.npy")
+    data = np.load("data_conv_lstm_2.npy")
     print("Successfully loaded data from disk")
 except FileNotFoundError:
     print("Dataset not available on disk, preparing a new one...")
-    #data = prepare_all_videos('../../ksutackle_dataset_108')
-    data = prepare_all_videos('/content/gdrive/MyDrive/ksutackle_dataset')
-    np.save("data_conv_lstm.npy", data)
+    data = prepare_all_videos('../../ksutackle_dataset_108')
+    #data = prepare_all_videos('/content/gdrive/MyDrive/ksutackle_dataset')
+    np.save("data_conv_lstm_2.npy", data)
     #np.save("labels.npy", labels)
 
-train_data_all, test_data  = train_test_split(data, test_size=0.30, random_state=42)
-#train_data, val_data, train_labels, val_labels = train_test_split(train_data_all, train_labels_all, test_size=0.20, random_state=45)
+train_data_all, test_data  = train_test_split(data, test_size=0.20, random_state=42)
+train_data, val_data = train_test_split(train_data_all, test_size=0.20, random_state=45)
 print(f"Frame features in train set: {train_data_all.shape}")
 
 # Normalize the data to the 0-1 range.
-train_dataset = train_data_all / 255
-val_dataset = test_data / 255
+train_dataset = train_data / 255
+val_dataset = val_data / 255
 
 # We'll define a helper function to shift the frames, where
 # `x` is frames 0 to n - 1, and `y` is frames 1 to n.
@@ -336,7 +336,7 @@ early_stopping = keras.callbacks.EarlyStopping(monitor="val_loss", patience=10)
 reduce_lr = keras.callbacks.ReduceLROnPlateau(monitor="val_loss", patience=5)
 
 # Define modifiable training hyperparameters.
-epochs = 100
+epochs = 200
 batch_size = 5
 
 # Fit the model to the training data.
@@ -350,7 +350,7 @@ history = model.fit(
 )
 
 
-model.save('model_conv_lstm_v2.h5')
+model.save('model_conv_lstm_v3.h5')
 """## Frame Prediction Visualizations
 With our model now constructed and trained, we can generate
 some example frame predictions based on a new video."""
@@ -377,7 +377,7 @@ plt.ylabel('Loss')
 #plt.title('Accuracy')
 plt.legend()
 #plt.imshow()
-plt.savefig('plt_loss.png', dpi=300, bbox_inches='tight')
+plt.savefig('plt_loss_conv_lstm.png', dpi=300, bbox_inches='tight')
 
 
 
