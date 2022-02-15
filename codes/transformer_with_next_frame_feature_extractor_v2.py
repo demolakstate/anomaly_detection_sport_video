@@ -23,13 +23,13 @@ This example requires TensorFlow 2.5 or higher, as well as TensorFlow Docs, whic
 installed using the following command:
 """
 
-!pip install -q git+https://github.com/tensorflow/docs
+#!pip install -q git+https://github.com/tensorflow/docs
 
 """## Data collection"""
 
 # Connect to drive
-from google.colab import drive
-drive.mount('/content/gdrive')
+#from google.colab import drive
+#drive.mount('/content/gdrive')
 
 """## Setup"""
 
@@ -39,22 +39,22 @@ from tensorflow import keras
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
-import pandas as pd
+#import pandas as pd
 import numpy as np
-import imageio
+#import imageio
 import cv2
 import os
 
 from sklearn.model_selection import train_test_split
 from sklearn.utils import class_weight
 
-from google.colab.patches import cv2_imshow
+#from google.colab.patches import cv2_imshow
 
 from keras.models import load_model
 
 """## Define hyperparameters"""
 
-MAX_SEQ_LENGTH = 20
+MAX_SEQ_LENGTH = 40#30#60#40
 NUM_FEATURES = 768#1024
 IMG_SIZE = 16 #128
 
@@ -137,7 +137,8 @@ def build_feature_extractor():
     #     input_shape=(IMG_SIZE, IMG_SIZE, 3),
     # )
 
-    feature_extractor = load_model('/content/model_conv_lstm_v3.h5')
+    feature_extractor = load_model('model_conv_lstm_v3.h5')
+    feature_extractor.trainable = False
     print(feature_extractor.summary())
     preprocess_input = keras.applications.densenet.preprocess_input
 
@@ -167,8 +168,8 @@ label_processor(label_tag).numpy()
 
 def prepare_all_videos(root_dir):
     
-    video_paths = os.listdir(root_dir)[:35]
-    labels = [video_path.split('_')[0] for video_path in video_paths][:35]
+    video_paths = os.listdir(root_dir)
+    labels = [video_path.split('_')[0] for video_path in video_paths]
     num_samples = len(labels)
     #labels = label_processor(labels[..., None]).numpy()
 
@@ -189,7 +190,7 @@ def prepare_all_videos(root_dir):
         if len(frames) < MAX_SEQ_LENGTH:
             diff = MAX_SEQ_LENGTH - len(frames)
             padding = np.zeros((diff, IMG_SIZE, IMG_SIZE, 3))
-            frames = np.concatenate(frames, padding)
+            frames = np.concatenate([frames, padding])
 
         frames = frames[None, ...]
 
@@ -229,13 +230,13 @@ def prepare_all_videos(root_dir):
 
 
 try:
-    data, labels = np.load("data.npy"), np.load("labels.npy")
+    data, labels = np.load("data_aux_7.npy"), np.load("labels_aux_7.npy")
     print("Successfully loaded data from disk")
 except FileNotFoundError:
     print("Dataset not available on disk, preparing a new one...")
-    data, labels = prepare_all_videos('/content/gdrive/MyDrive/ksutackle_dataset')
-    np.save("data.npy", data)
-    np.save("labels.npy", labels)
+    data, labels = prepare_all_videos('../../ksutackle_dataset')
+    np.save("data_aux_7.npy", data)
+    np.save("labels_aux_7.npy", labels)
 
 train_data_all, test_data, train_labels_all, test_labels = train_test_split(data, labels, test_size=0.20, random_state=42)
 #train_data, val_data, train_labels, val_labels = train_test_split(train_data_all, train_labels_all, test_size=0.20, random_state=45)
@@ -406,7 +407,7 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 #plt.title('Accuracy')
 plt.legend()
-plt.savefig('plt_loss.png', dpi=300, bbox_inches='tight')
+plt.savefig('plt_loss_aux.png', dpi=300, bbox_inches='tight')
 
 
 """**Note**: This model has ~4.23 Million parameters, which is way more than the sequence
@@ -435,71 +436,6 @@ print(classification_report(y_true, y_pred))
 # Save the model
 import time
 time_saved = time.time()
-#trained_model.save('transformer_{}.h5'.format(time_saved))
+trained_model.save('transformer_aux_7_{}.h5'.format(time_saved))
 print(f'time_saved : {time_saved}')
 
-#import matplotlib.pyplot as
-
-
-
-
-
-
-
-
-
-a--
-
-def prepare_single_video(frames):
-    frame_features = np.zeros(shape=(1, MAX_SEQ_LENGTH, NUM_FEATURES), dtype="float32")
-
-    # Pad shorter videos.
-    if len(frames) < MAX_SEQ_LENGTH:
-        diff = MAX_SEQ_LENGTH - len(frames)
-        padding = np.zeros((diff, IMG_SIZE, IMG_SIZE, 3))
-        frames = np.concatenate(frames, padding)
-
-    frames = frames[None, ...]
-
-    # Extract features from the frames of the current video.
-    for i, batch in enumerate(frames):
-        video_length = batch.shape[0]
-        length = min(MAX_SEQ_LENGTH, video_length)
-        for j in range(length):
-            if np.mean(batch[j, :]) > 0.0:
-                frame_features[i, j, :] = feature_extractor.predict(batch[None, j, :])
-            else:
-                frame_features[i, j, :] = 0.0
-
-    return frame_features
-
-
-def predict_action(path):
-    class_vocab = label_processor.get_vocabulary()
-
-    frames = load_video(os.path.join("test", path))
-    frame_features = prepare_single_video(frames)
-    probabilities = trained_model.predict(frame_features)[0]
-
-    for i in np.argsort(probabilities)[::-1]:
-        print(f"  {class_vocab[i]}: {probabilities[i] * 100:5.2f}%")
-    return frames
-
-
-# This utility is for visualization.
-# Referenced from:
-# https://www.tensorflow.org/hub/tutorials/action_recognition_with_tf_hub
-def to_gif(images):
-    converted_images = images.astype(np.uint8)
-    imageio.mimsave("animation.gif", converted_images, fps=10)
-    return embed.embed_file("animation.gif")
-
-
-test_video = np.random.choice(test_df["video_name"].values.tolist())
-print(f"Test video path: {test_video}")
-test_frames = predict_action(test_video)
-to_gif(test_frames[:MAX_SEQ_LENGTH])
-
-"""The performance of our model is far from optimal, because it was trained on a
-small dataset.
-"""
